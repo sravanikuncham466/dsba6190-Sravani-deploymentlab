@@ -59,7 +59,7 @@ resource "azurerm_storage_account" "storage" {
     ip_rules                   = ["100.0.0.1"]
     virtual_network_subnet_ids = [azurerm_subnet.snet.id]
   }
-}
+  }
 resource "azurerm_mssql_server" "sqls" {
   name                         = "sqls-${var.class_name}-${var.student_name}-${var.environment}-${var.location}-${random_integer.deployment_id_suffix.result}"
   resource_group_name          = azurerm_resource_group.rg.name
@@ -71,12 +71,11 @@ resource "azurerm_mssql_server" "sqls" {
 
 resource "azurerm_mssql_database" "sqldb" {
   name         = "sqldb-${var.class_name}-${var.student_name}-${var.environment}-${var.location}-${random_integer.deployment_id_suffix.result}"
-  server_id    = azurerm_mssql_server.sqldb.id
+  server_id    = azurerm_mssql_server.sqls.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "LicenseIncluded"
   max_size_gb  = 2
   sku_name     = "Basic"
-
+  
   tags = local.tags
 }
-
