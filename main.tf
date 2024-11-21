@@ -79,3 +79,8 @@ resource "azurerm_mssql_database" "sqldb" {
 
   tags = local.tags
 }
+resource "azurerm_mssql_virtual_network_rule" "azsql" {
+  name      = "sql-vnet-rule"
+  server_id = azurerm_mssql_server.sqls.id
+  subnet_id = azurerm_subnet.snet.id
+}
